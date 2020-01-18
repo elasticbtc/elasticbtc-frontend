@@ -11,6 +11,8 @@ import useBank from '../../hooks/useBank';
 import useRedeem from '../../hooks/useRedeem';
 import Harvest from './components/Harvest';
 import Stake from './components/Stake';
+import Card from '../../components/Card';
+import CardContent from '../../components/CardContent';
 
 const Bank: React.FC = () => {
   useEffect(() => window.scrollTo(0, 0));
@@ -28,6 +30,19 @@ const Bank: React.FC = () => {
         subtitle={`Deposit ${bank?.depositTokenName} and earn ${bank?.earnTokenName}`}
         title={bank?.name}
       />
+      {bank.name.toLowerCase().includes('badger') && (
+        <StyledBanner>
+          <StyledCardWrapper>
+            <Card>
+              <CardContent>
+                Sorry, we messed up the units for this pool. The max deposit is 0.00000002
+                BADGER per address.
+              </CardContent>
+            </Card>
+          </StyledCardWrapper>
+        </StyledBanner>
+      )}
+      <Spacer />
       <StyledBank>
         <StyledCardsWrapper>
           <StyledCardWrapper>
@@ -135,6 +150,11 @@ const Center = styled.div`
   flex: 1;
   align-items: center;
   justify-content: center;
+`;
+
+const StyledBanner = styled.div`
+  color: #E57373;
+  width: 800px;
 `;
 
 export default Bank;
