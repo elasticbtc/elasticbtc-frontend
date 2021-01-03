@@ -123,7 +123,7 @@ const Bond: React.FC = () => {
                   onExchange={handleRedeemBonds}
                   disabled={!bondStat || bondBalance.eq(0) || !isBondRedeemable}
                   disabledDescription={
-                    !isBondRedeemable ? `Enabled when BAC > $${BOND_REDEEM_PRICE}` : null
+                    !isBondRedeemable ? `Enabled when BAC > ₿${BOND_REDEEM_PRICE}` : null
                   }
                 />
               </StyledCardWrapper>
