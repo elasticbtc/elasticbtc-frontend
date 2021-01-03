@@ -22,7 +22,7 @@ export class BasisCash {
   externalTokens: { [name: string]: ERC20 };
   boardroomVersionOfUser?: string;
 
-  bacDai: Contract;
+  ebtcWbtc: Contract;
   EBTC: ERC20;
   EBS: ERC20;
   EBB: ERC20;
@@ -45,7 +45,7 @@ export class BasisCash {
     this.EBB = new ERC20(deployments.Bond.address, provider, 'EBB');
 
     // Uniswap V2 Pair
-    this.bacDai = new Contract(
+    this.ebtcWbtc = new Contract(
       externalTokens['EBTC_WBTC-UNI-LPv2'][0],
       IUniswapV2PairABI,
       provider,
@@ -71,7 +71,7 @@ export class BasisCash {
     for (const token of tokens) {
       token.connect(this.signer);
     }
-    this.bacDai = this.bacDai.connect(this.signer);
+    this.ebtcWbtc = this.ebtcWbtc.connect(this.signer);
     console.log(`🔓 Wallet is unlocked. Welcome, ${account}!`);
     this.fetchBoardroomVersionOfUser()
       .then((version) => (this.boardroomVersionOfUser = version))
@@ -113,7 +113,7 @@ export class BasisCash {
     const { Oracle } = this.contracts;
 
     // estimate current TWAP price
-    const cumulativePrice: BigNumber = await this.bacDai.price0CumulativeLast();
+    const cumulativePrice: BigNumber = await this.ebtcWbtc.price0CumulativeLast();
     const cumulativePriceLast = await Oracle.price0CumulativeLast();
     const elapsedSec = Math.floor(Date.now() / 1000 - (await Oracle.blockTimestampLast()));
 
