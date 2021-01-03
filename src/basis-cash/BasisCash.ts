@@ -118,10 +118,11 @@ export class BasisCash {
     const elapsedSec = Math.floor(Date.now() / 1000 - (await Oracle.blockTimestampLast()));
 
     const denominator112 = BigNumber.from(2).pow(112);
-    const denominator1e18 = BigNumber.from(10).pow(18);
+    // 1e8 = sats in 1 WBTC
+    const denominator1e8 = BigNumber.from(10).pow(8);
     const cashPriceTWAP = cumulativePrice
       .sub(cumulativePriceLast)
-      .mul(denominator1e18)
+      .mul(denominator1e8)
       .div(elapsedSec)
       .div(denominator112);
 
