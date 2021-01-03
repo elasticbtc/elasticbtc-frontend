@@ -6,10 +6,10 @@ const Nav: React.FC = () => {
   return (
     <StyledNav>
       <StyledLink href={buyBAS} target="_blank">
-        Get BAS
+        Get EBS
       </StyledLink>
       <StyledLink href={buyBAC} target="_blank">
-        Get BAC
+        Get EBTC
       </StyledLink>
       <StyledLink href="https://github.com/ElasticBTC" target="_blank">
         GitHub
