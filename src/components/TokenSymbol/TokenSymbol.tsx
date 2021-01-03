@@ -1,6 +1,7 @@
 import React from 'react';
 import BACLogo from '../../assets/img/bac.svg';
 import BadgerLogo from '../../assets/img/badger.png';
+import DAILogo from '../../assets/img/DAI.png';
 import HuobiBTCLogo from '../../assets/img/huobibtc.png';
 import babLogo from '../../assets/img/icon-ebb.svg';
 import basLogo from '../../assets/img/icon-ebs.svg';
@@ -14,9 +15,10 @@ const logosBySymbol: { [title: string]: string } = {
   EBB: babLogo,
   EBS: basLogo,
   'EBTC_WBTC-UNI-LPv2': bacLogo,
-  'EBS_DAI-UNI-LPv2': basLogo,
+  'EBS_WBTC-UNI-LPv2': basLogo,
 
   // farms
+  DAI: DAILogo,
   WBTC: WBTCLogo,
   BAC: BACLogo,
   HBTC: HuobiBTCLogo,
