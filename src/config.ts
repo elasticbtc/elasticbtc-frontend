@@ -114,7 +114,7 @@ export const bankDefinitions: { [contractName: string]: BankInfo } = {
     finished: false,
     sort: 2,
   },
-};
+} as const;
 
 const urlParams = new URLSearchParams(window.location.search);
 

@@ -165,15 +165,15 @@ export class BasisCash {
     await this.provider.ready;
 
     const { chainId } = this.config;
-    const { DAI } = this.config.externalTokens;
+    const { WBTC } = this.config.externalTokens;
 
-    const dai = new Token(chainId, DAI[0], 18);
-    const token = new Token(chainId, tokenContract.address, 18);
+    const wbtc = new Token(chainId, WBTC[0], WBTC[1]);
+    const token = new Token(chainId, tokenContract.address, tokenContract.decimal);
 
     try {
-      const daiToToken = await Fetcher.fetchPairData(dai, token, this.provider);
-      const priceInDAI = new Route([daiToToken], token);
-      return priceInDAI.midPrice.toSignificant(3);
+      const wbtcToToken = await Fetcher.fetchPairData(wbtc, token, this.provider);
+      const priceInWBTC = new Route([wbtcToToken], token);
+      return priceInWBTC.midPrice.toSignificant(3);
     } catch (err) {
       console.error(`Failed to fetch token price of ${tokenContract.symbol}: ${err}`);
     }
