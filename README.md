@@ -40,6 +40,9 @@ Then, you need to change the deployment reference into yours. Suppose that the n
 + deployments: require('./basis-cash/deployments/deployments.local.json'),
 ```
 
+## Kovan
+Link: https://elasticbtc-frontend-git-oracle-fix.mr-p00pybutthole.vercel.app/?network=kovan
+
 ## ⚒ Contributions
 
 Contributions are welcome! Since we don't have any contribution guide / issue templates yet,
