@@ -3,13 +3,13 @@ import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 
 const Nav: React.FC = () => {
+  // <StyledLink2 href="https://snapshot.page/#/basiscash.eth" target="_blank" >Vote</StyledLink2>
   return (
     <StyledNav>
       <StyledLink exact activeClassName="active" to="/">Home</StyledLink>
       <StyledLink exact activeClassName="active" to="/bank">Bank</StyledLink>
       <StyledLink exact activeClassName="active" to="/bonds">Bonds</StyledLink>
       <StyledLink exact activeClassName="active" to="/boardroom">Boardroom</StyledLink>
-      <StyledLink2 href="https://snapshot.page/#/basiscash.eth" target="_blank" >Vote</StyledLink2>
     </StyledNav>
   )
 }
