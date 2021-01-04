@@ -9,6 +9,7 @@ const configurations: { [env: string]: Configuration } = {
     defaultProvider: 'https://kovan.infura.io/v3/94f21f1a0b3742edb96db570b952930b',
     deployments: require('./basis-cash/deployments/deployments.kovan.json'),
     externalTokens: {
+      DAI: ['0x6b175474e89094c44da98b954eedeac495271d0f', 18],
       WBTC: ['0xf66fedfe24fc5f0b548d5b28ac4608ddf87648bb', 8],
       BAC: ['0x3449fc1cd036255ba1eb19d65ff4ba2b8903a69a', 18],
       HBTC: ['0x0316EB71485b0Ab14103307bf65a021042c6d380', 18],
@@ -30,6 +31,7 @@ const configurations: { [env: string]: Configuration } = {
     defaultProvider: 'https://mainnet.infura.io/v3/94f21f1a0b3742edb96db570b952930b',
     deployments: require('./basis-cash/deployments/deployments.mainnet.json'),
     externalTokens: {
+      DAI: ['0x6b175474e89094c44da98b954eedeac495271d0f', 18],
       WBTC: ['0x2260fac5e5542a773aa44fbcfedf7c193bc2c599', 8],
       BAC: ['0x3449fc1cd036255ba1eb19d65ff4ba2b8903a69a', 18],
       HBTC: ['0x0316EB71485b0Ab14103307bf65a021042c6d380', 18],
@@ -98,7 +100,7 @@ export const bankDefinitions: { [contractName: string]: BankInfo } = {
   },
   WBTCEBTCLPTokenSharePool: {
     name: 'Earn EBS by EBTC-WBTC-LP',
-    contract: 'DAIEBTCLPTokenSharePool',
+    contract: 'WBTCEBTCLPTokenSharePool',
     depositTokenName: 'EBTC_WBTC-UNI-LPv2',
     earnTokenName: 'EBS',
     finished: false,
@@ -106,7 +108,7 @@ export const bankDefinitions: { [contractName: string]: BankInfo } = {
   },
   WBTCEBSLPTokenSharePool: {
     name: 'Earn EBS by EBS-WBTC-LP',
-    contract: 'DAIEBSLPTokenSharePool',
+    contract: 'WBTCEBSLPTokenSharePool',
     depositTokenName: 'EBS_WBTC-UNI-LPv2',
     earnTokenName: 'EBS',
     finished: false,

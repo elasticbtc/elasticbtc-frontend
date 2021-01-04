@@ -15,21 +15,33 @@ const Banks: React.FC = ({ children }) => {
       if (bankInfo.finished) {
         if (!basisCash.isUnlocked) continue;
 
-        // only show pools staked by user
-        const balance = await basisCash.stakedBalanceOnBank(
-          bankInfo.contract,
-          basisCash.myAccount,
-        );
-        if (balance.lte(0)) {
-          continue;
+        try {
+          // only show pools staked by user
+          const balance = await basisCash.stakedBalanceOnBank(
+            bankInfo.contract,
+            basisCash.myAccount,
+          );
+          if (balance.lte(0)) {
+            continue;
+          }
+        } catch (e) {
+          const nextErr = new Error(`could not fetch pool ${bankInfo.contract}: ${e.message}`);
+          nextErr.stack = e.stack;
+          throw nextErr;
         }
       }
-      banks.push({
-        ...bankInfo,
-        address: config.deployments[bankInfo.contract].address,
-        depositToken: basisCash.externalTokens[bankInfo.depositTokenName],
-        earnToken: bankInfo.earnTokenName == 'EBTC' ? basisCash.EBTC : basisCash.EBS,
-      });
+      try {
+        banks.push({
+          ...bankInfo,
+          address: config.deployments[bankInfo.contract].address,
+          depositToken: basisCash.externalTokens[bankInfo.depositTokenName],
+          earnToken: bankInfo.earnTokenName == 'EBTC' ? basisCash.EBTC : basisCash.EBS,
+        });
+      } catch (e) {
+        const nextErr = new Error(`could not create pool ${bankInfo.contract}: ${e.message}`);
+        nextErr.stack = e.stack;
+        throw nextErr;
+      }
     }
     banks.sort((a, b) => (a.sort > b.sort ? 1 : -1));
     setBanks(banks);
@@ -37,7 +49,7 @@ const Banks: React.FC = ({ children }) => {
 
   useEffect(() => {
     if (basisCash) {
-      fetchPools().catch((err) => console.error(`Failed to fetch pools: ${err.stack}`));
+      fetchPools().catch((err) => console.error(`Failed to fetch pools: ${err.message}`, err));
     }
   }, [basisCash, basisCash?.isUnlocked, fetchPools]);
 

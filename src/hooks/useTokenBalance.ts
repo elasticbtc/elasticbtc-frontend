@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useState } from 'react';
 import { BigNumber } from 'ethers';
+import { useCallback, useEffect, useState } from 'react';
 import ERC20 from '../basis-cash/ERC20';
-import useBasisCash from './useBasisCash';
 import config from '../config';
+import useBasisCash from './useBasisCash';
 
 const useTokenBalance = (token: ERC20) => {
   const [balance, setBalance] = useState(BigNumber.from(0));
@@ -10,7 +10,7 @@ const useTokenBalance = (token: ERC20) => {
 
   const fetchBalance = useCallback(async () => {
     setBalance(await token.balanceOf(basisCash.myAccount));
-  }, [basisCash?.isUnlocked, token]);
+  }, [basisCash.myAccount, token]);
 
   useEffect(() => {
     if (basisCash?.isUnlocked) {
@@ -20,7 +20,7 @@ const useTokenBalance = (token: ERC20) => {
       let refreshInterval = setInterval(fetchBalance, config.refreshInterval);
       return () => clearInterval(refreshInterval);
     }
-  }, [basisCash?.isUnlocked, token]);
+  }, [basisCash, fetchBalance, token]);
 
   return balance;
 };

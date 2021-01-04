@@ -42,12 +42,24 @@ const BankCards: React.FC = () => {
         </StyledInactiveNoticeContainer>
       )}
       <StyledRow>
-        {activeBanks.map((bank, i) => (
-          <React.Fragment key={bank.name}>
-            <BankCard bank={bank} />
-            {i < activeBanks.length - 1 && <StyledSpacer />}
-          </React.Fragment>
-        ))}
+        {activeBanks
+          .filter((bank) => bank.earnToken.symbol === 'EBS')
+          .map((bank, i) => (
+            <React.Fragment key={bank.name}>
+              <BankCard bank={bank} />
+              {i < activeBanks.length - 1 && <StyledSpacer />}
+            </React.Fragment>
+          ))}
+      </StyledRow>
+      <StyledRow>
+        {activeBanks
+          .filter((bank) => bank.earnToken.symbol === 'EBTC')
+          .map((bank, i) => (
+            <React.Fragment key={bank.name}>
+              <BankCard bank={bank} />
+              {i < activeBanks.length - 1 && i % 3 !== 2 && <StyledSpacer />}
+            </React.Fragment>
+          ))}
       </StyledRow>
       {inactiveRows[0].length > 0 && (
         <>
@@ -180,6 +192,7 @@ const StyledRow = styled.div`
 `;
 
 const StyledCardWrapper = styled.div`
+  margin-top: ${(props) => props.theme.spacing[4]}px;
   display: flex;
   width: calc((900px - ${(props) => props.theme.spacing[4]}px * 2) / 3);
   position: relative;
