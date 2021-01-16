@@ -20,7 +20,8 @@ const LaunchCountdown: React.FC<LaunchCountdownProps> = ({
     delta !== 0
       ? (Date.now() - config.baseLaunchDate.getTime()) /
         (deadline.getTime() - config.baseLaunchDate.getTime())
-      : ((deadline.getTime() - Date.now()) / deadline.getTime()) * 100;
+      : Math.min(1, Math.max(0, (deadline.getTime() - Date.now()) / (24 * 60 * 60 * 1000))) *
+        100;
 
   const countdownRenderer = (countdownProps: CountdownRenderProps) => {
     const { days, hours, minutes, seconds } = countdownProps;
