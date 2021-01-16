@@ -1,9 +1,8 @@
 import React from 'react';
+import Countdown, { CountdownRenderProps } from 'react-countdown';
 import styled from 'styled-components';
 import config from '../../config';
 import Dial from '../Dial';
-import Countdown, { CountdownRenderProps } from 'react-countdown';
-import Button from '../Button';
 
 interface LaunchCountdownProps {
   deadline: Date;
@@ -16,10 +15,12 @@ const LaunchCountdown: React.FC<LaunchCountdownProps> = ({
   description,
   descriptionLink,
 }) => {
+  const delta = deadline.getTime() - config.baseLaunchDate.getTime();
   const percentage =
-    ((Date.now() - config.baseLaunchDate.getTime()) /
-      (deadline.getTime() - config.baseLaunchDate.getTime())) *
-    100;
+    delta !== 0
+      ? (Date.now() - config.baseLaunchDate.getTime()) /
+        (deadline.getTime() - config.baseLaunchDate.getTime())
+      : ((deadline.getTime() - Date.now()) / deadline.getTime()) * 100;
 
   const countdownRenderer = (countdownProps: CountdownRenderProps) => {
     const { days, hours, minutes, seconds } = countdownProps;
