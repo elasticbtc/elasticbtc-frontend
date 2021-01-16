@@ -7,10 +7,12 @@ import useBasisCash from './useBasisCash';
 const useTokenBalance = (token: ERC20) => {
   const [balance, setBalance] = useState(BigNumber.from(0));
   const basisCash = useBasisCash();
+  const myAccount = basisCash?.myAccount;
 
   const fetchBalance = useCallback(async () => {
     setBalance(await token.balanceOf(basisCash.myAccount));
-  }, [basisCash.myAccount, token]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [myAccount, token]);
 
   useEffect(() => {
     if (basisCash?.isUnlocked) {
