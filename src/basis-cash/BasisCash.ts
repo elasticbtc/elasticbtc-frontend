@@ -175,7 +175,7 @@ export class BasisCash {
       const wbtcToToken = await Fetcher.fetchPairData(wbtc, token, this.provider);
       const priceInWBTC = new Route([wbtcToToken], token);
       const midPrice = priceInWBTC.midPrice;
-      if (midPrice.greaterThan(new Fraction('1', '10'))) {
+      if (midPrice.adjusted.greaterThan(new Fraction('1', '10'))) {
         return priceInWBTC.midPrice.toFixed(3);
       } else {
         return priceInWBTC.midPrice.toSignificant(3);
