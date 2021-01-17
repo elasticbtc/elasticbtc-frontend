@@ -22,7 +22,7 @@ export class BasisCash {
   externalTokens: { [name: string]: ERC20 };
   boardroomVersionOfUser?: string;
 
-  bacDai: Contract;
+  ebtcWbtc: Contract;
   EBTC: ERC20;
   EBS: ERC20;
   EBB: ERC20;
@@ -45,7 +45,7 @@ export class BasisCash {
     this.EBB = new ERC20(deployments.Bond.address, provider, 'EBB');
 
     // Uniswap V2 Pair
-    this.bacDai = new Contract(
+    this.ebtcWbtc = new Contract(
       externalTokens['EBTC_WBTC-UNI-LPv2'][0],
       IUniswapV2PairABI,
       provider,
@@ -71,7 +71,7 @@ export class BasisCash {
     for (const token of tokens) {
       token.connect(this.signer);
     }
-    this.bacDai = this.bacDai.connect(this.signer);
+    this.ebtcWbtc = this.ebtcWbtc.connect(this.signer);
     console.log(`🔓 Wallet is unlocked. Welcome, ${account}!`);
     this.fetchBoardroomVersionOfUser()
       .then((version) => (this.boardroomVersionOfUser = version))
@@ -113,15 +113,16 @@ export class BasisCash {
     const { Oracle } = this.contracts;
 
     // estimate current TWAP price
-    const cumulativePrice: BigNumber = await this.bacDai.price0CumulativeLast();
+    const cumulativePrice: BigNumber = await this.ebtcWbtc.price0CumulativeLast();
     const cumulativePriceLast = await Oracle.price0CumulativeLast();
     const elapsedSec = Math.floor(Date.now() / 1000 - (await Oracle.blockTimestampLast()));
 
     const denominator112 = BigNumber.from(2).pow(112);
-    const denominator1e18 = BigNumber.from(10).pow(18);
+    // 1e8 = sats in 1 WBTC
+    const denominator1e8 = BigNumber.from(10).pow(8);
     const cashPriceTWAP = cumulativePrice
       .sub(cumulativePriceLast)
-      .mul(denominator1e18)
+      .mul(denominator1e8)
       .div(elapsedSec)
       .div(denominator112);
 
@@ -165,15 +166,15 @@ export class BasisCash {
     await this.provider.ready;
 
     const { chainId } = this.config;
-    const { DAI } = this.config.externalTokens;
+    const { WBTC } = this.config.externalTokens;
 
-    const dai = new Token(chainId, DAI[0], 18);
-    const token = new Token(chainId, tokenContract.address, 18);
+    const wbtc = new Token(chainId, WBTC[0], WBTC[1]);
+    const token = new Token(chainId, tokenContract.address, tokenContract.decimal);
 
     try {
-      const daiToToken = await Fetcher.fetchPairData(dai, token, this.provider);
-      const priceInDAI = new Route([daiToToken], token);
-      return priceInDAI.midPrice.toSignificant(3);
+      const wbtcToToken = await Fetcher.fetchPairData(wbtc, token, this.provider);
+      const priceInWBTC = new Route([wbtcToToken], token);
+      return priceInWBTC.midPrice.toFixed(3);
     } catch (err) {
       console.error(`Failed to fetch token price of ${tokenContract.symbol}: ${err}`);
     }
