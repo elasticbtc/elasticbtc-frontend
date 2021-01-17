@@ -174,7 +174,12 @@ export class BasisCash {
     try {
       const wbtcToToken = await Fetcher.fetchPairData(wbtc, token, this.provider);
       const priceInWBTC = new Route([wbtcToToken], token);
-      return priceInWBTC.midPrice.toSignificant(3);
+      const midPrice = priceInWBTC.midPrice;
+      if (midPrice.greaterThan('1')) {
+        return priceInWBTC.midPrice.toFixed(3);
+      } else {
+        return priceInWBTC.midPrice.toSignificant(3);
+      }
     } catch (err) {
       console.error(`Failed to fetch token price of ${tokenContract.symbol}: ${err}`);
     }
