@@ -1,5 +1,5 @@
 import { TransactionResponse } from '@ethersproject/providers';
-import { Fetcher, Route, Token } from '@uniswap/sdk';
+import { Fetcher, Fraction, Route, Token } from '@uniswap/sdk';
 import { BigNumber, Contract, ethers, Overrides } from 'ethers';
 import { getDisplayBalance } from '../utils/formatBalance';
 import { getDefaultProvider } from '../utils/provider';
@@ -175,7 +175,7 @@ export class BasisCash {
       const wbtcToToken = await Fetcher.fetchPairData(wbtc, token, this.provider);
       const priceInWBTC = new Route([wbtcToToken], token);
       const midPrice = priceInWBTC.midPrice;
-      if (midPrice.greaterThan('1')) {
+      if (midPrice.greaterThan(new Fraction('1', '10'))) {
         return priceInWBTC.midPrice.toFixed(3);
       } else {
         return priceInWBTC.midPrice.toSignificant(3);
