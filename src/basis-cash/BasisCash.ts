@@ -1,5 +1,5 @@
 import { TransactionResponse } from '@ethersproject/providers';
-import { Fetcher, Route, Token } from '@uniswap/sdk';
+import { Fetcher, Fraction, Route, Token } from '@uniswap/sdk';
 import { BigNumber, Contract, ethers, Overrides } from 'ethers';
 import { getDisplayBalance } from '../utils/formatBalance';
 import { getDefaultProvider } from '../utils/provider';
@@ -174,7 +174,12 @@ export class BasisCash {
     try {
       const wbtcToToken = await Fetcher.fetchPairData(wbtc, token, this.provider);
       const priceInWBTC = new Route([wbtcToToken], token);
-      return priceInWBTC.midPrice.toFixed(3);
+      const midPrice = priceInWBTC.midPrice;
+      if (midPrice.adjusted.greaterThan(new Fraction('1', '10'))) {
+        return priceInWBTC.midPrice.toFixed(3);
+      } else {
+        return priceInWBTC.midPrice.toSignificant(3);
+      }
     } catch (err) {
       console.error(`Failed to fetch token price of ${tokenContract.symbol}: ${err}`);
     }
