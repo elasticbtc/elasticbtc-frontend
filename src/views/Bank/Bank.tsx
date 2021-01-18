@@ -6,6 +6,7 @@ import { Bank as BankEntity } from '../../basis-cash';
 import Button from '../../components/Button';
 import PageHeader from '../../components/PageHeader';
 import Spacer from '../../components/Spacer';
+import config from '../../config';
 import useBank from '../../hooks/useBank';
 import useRedeem from '../../hooks/useRedeem';
 import Harvest from './components/Harvest';
@@ -57,13 +58,11 @@ const LPTokenHelpText: React.FC<{ bank: BankEntity }> = ({ bank }) => {
   let pairName: string;
   let uniswapUrl: string;
   if (bank.depositTokenName.includes('EBTC')) {
-    pairName = 'EBTC-DAI pair';
-    uniswapUrl =
-      'https://app.uniswap.org/#/add/0x3449FC1Cd036255BA1EB19d65fF4BA2b8903A69a/0x6B175474E89094C44Da98b954EedeAC495271d0F';
+    pairName = 'EBTC-WBTC pair';
+    uniswapUrl = `https://app.uniswap.org/#/add/${config.deployments.Cash.address}/${config.externalTokens.WBTC[0]}`;
   } else {
-    pairName = 'EBS-DAI pair';
-    uniswapUrl =
-      'https://app.uniswap.org/#/add/0xa7ED29B253D8B4E3109ce07c80fc570f81B63696/0x6B175474E89094C44Da98b954EedeAC495271d0F';
+    pairName = 'EBS-WBTC pair';
+    uniswapUrl = `https://app.uniswap.org/#/add/${config.deployments.Share.address}/${config.externalTokens.WBTC[0]}`;
   }
   return (
     <StyledLink href={uniswapUrl} target="_blank">
